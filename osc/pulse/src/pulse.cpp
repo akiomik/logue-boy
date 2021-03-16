@@ -16,6 +16,9 @@ enum {
   k_flag_reset = 1<<0,
 };
 
+#define k_pulse_duty_lut_size (4)
+const float pulse_duty_lut_f[k_pulse_duty_lut_size] = { 0.125f, 0.250f, 0.500f, 0.750f };
+
 static State s_state;
 
 void OSC_INIT(uint32_t platform, uint32_t api) {
@@ -76,14 +79,10 @@ void OSC_PARAM(uint16_t index, uint16_t value) {
   case k_user_osc_param_id6:
     break;
   case k_user_osc_param_shape:
-    if (valf < 0.250f) {
-      s_state.duty = 0.125f;
-    } else if (valf < 0.500f) {
-      s_state.duty = 0.250f;
-    } else if (valf < 0.750f) {
-      s_state.duty = 0.500f;
-    } else {
-      s_state.duty = 0.750f;
+    {
+      const uint8_t pulse_duty_lut_idx =
+        clipmaxf(valf * k_pulse_duty_lut_size, k_pulse_duty_lut_size - 1);
+      s_state.duty = pulse_duty_lut_f[pulse_duty_lut_idx];
     }
     break;
   case k_user_osc_param_shiftshape:
