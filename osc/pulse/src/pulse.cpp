@@ -3,50 +3,36 @@
 #include "float_math.h"
 #include "userosc.h"
 
-typedef struct State {
-  float phase;
-  float duty;
-  float depth;
-  uint8_t flags;
-} State;
+#include "pulse.hpp"
 
-enum {
-  k_flags_none = 0,
-  k_flag_reset = 1<<0,
-};
-
-#define k_pulse_duty_lut_size (4)
-const float pulse_duty_lut_f[k_pulse_duty_lut_size] = { 0.125f, 0.250f, 0.500f, 0.750f };
-
-static State s_state;
+static Pulse s_pulse;
 
 void OSC_INIT(uint32_t platform, uint32_t api) {
-  s_state.phase = 0.f;
-  s_state.duty  = 0.f;
-  s_state.depth = 0.f;
-  s_state.flags = k_flags_none;
+  (void)platform;
+  (void)api;
 }
 
 void OSC_CYCLE(const user_osc_param_t * const params,
                int32_t *yn,
                const uint32_t frames) {
-  const uint8_t flags = s_state.flags;
-  s_state.flags = k_flags_none;
+  Pulse::State &s = s_pulse.state;
+  const Pulse::Params &p = s_pulse.params;
+
+  const uint8_t flags = s.flags;
+  s.flags = Pulse::k_flags_none;
 
   const float w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
-  float phase = (flags & k_flag_reset) ? 0.f : s_state.phase;
+  float phase = (flags & Pulse::k_flag_reset) ? 0.f : s.phase;
 
-  const float duty = s_state.duty;
-  const float depth = s_state.depth;
+  const float duty = p.duty;
+  const float depth = p.depth;
 
   q31_t * __restrict y = reinterpret_cast<q31_t *>(yn);
   const q31_t * y_e = y + frames;
 
   for (; y != y_e; ) {
-    float sig = phase < duty ? -1.f : 1.f;
-    const float position = sig < 0 ? (phase / duty) : ((phase - duty) / (1 - duty));  // [0, 1]
-    const float attenuation = 1.f - fastersinf(position * M_PI_2) * depth;  // [0, 1]
-    sig *= attenuation;
+    float sig = s_pulse.signal(phase);
+    sig *= 1.f - s_pulse.attenuation(phase);
 
     *(y++) = f32_to_q31(sig);
 
@@ -54,11 +40,11 @@ void OSC_CYCLE(const user_osc_param_t * const params,
     phase -= (uint32_t)phase;
   }
 
-  s_state.phase = phase;
+  s.phase = phase;
 }
 
 void OSC_NOTEON(const user_osc_param_t * const params) {
-  s_state.flags |= k_flag_reset;
+  s_pulse.state.flags |= Pulse::k_flag_reset;
 }
 
 void OSC_NOTEOFF(const user_osc_param_t * const params) {
@@ -77,14 +63,10 @@ void OSC_PARAM(uint16_t index, uint16_t value) {
   case k_user_osc_param_id6:
     break;
   case k_user_osc_param_shape:
-    {
-      const uint8_t pulse_duty_lut_idx =
-        clipmaxf(valf * k_pulse_duty_lut_size, k_pulse_duty_lut_size - 1);
-      s_state.duty = pulse_duty_lut_f[pulse_duty_lut_idx];
-    }
+    s_pulse.params.setDutyFromParamVal(valf);
     break;
   case k_user_osc_param_shiftshape:
-    s_state.depth = valf;
+    s_pulse.params.depth = valf;
     break;
   default:
     break;
