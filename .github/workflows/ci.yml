@@ -29,5 +29,6 @@ jobs:
       run: |
         cd $TOOLSDIR/logue-cli
         ./get_logue_cli_linux.sh
+        chmod 755 logue-cli-linux64-0.07-2b/logue-cli
     - name: build
       run: tools/build.sh
