@@ -4,7 +4,6 @@
 #include "userosc.h"
 
 typedef struct State {
-  float w0;
   float phase;
   float duty;
   float depth;
@@ -22,7 +21,6 @@ const float pulse_duty_lut_f[k_pulse_duty_lut_size] = { 0.125f, 0.250f, 0.500f, 
 static State s_state;
 
 void OSC_INIT(uint32_t platform, uint32_t api) {
-  s_state.w0    = 0.f;
   s_state.phase = 0.f;
   s_state.duty  = 0.f;
   s_state.depth = 0.f;
@@ -35,7 +33,7 @@ void OSC_CYCLE(const user_osc_param_t * const params,
   const uint8_t flags = s_state.flags;
   s_state.flags = k_flags_none;
 
-  const float w0 = s_state.w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
+  const float w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
   float phase = (flags & k_flag_reset) ? 0.f : s_state.phase;
 
   const float duty = s_state.duty;
