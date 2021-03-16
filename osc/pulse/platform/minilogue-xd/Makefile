@@ -234,4 +234,4 @@ package:
 	@echo Done
 
 check:
-	@$(TOOLSDIR)/logue-cli/logue-cli-osx-0.07-2b/logue-cli check -u $(PKGARCH)
+	@$(TOOLSDIR)/logue-cli/logue-cli-*-0.07-2b/logue-cli check -u $(PKGARCH)
