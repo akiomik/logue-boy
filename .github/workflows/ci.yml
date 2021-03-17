@@ -33,6 +33,14 @@ jobs:
         chmod 755 logue-cli-linux64-0.07-2b/logue-cli
     - name: Build
       run: tools/build.sh
+    - name: Build googletest
+      run: |
+        mkdir libs/googletest/build
+        cd libs/googletest/build
+        cmake ..
+        make
+    - name: Test
+      run: tools/test.sh
     - name: Install cpplint
       run: pip install cpplint
     - name: Lint
