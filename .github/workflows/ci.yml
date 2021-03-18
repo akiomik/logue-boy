@@ -20,25 +20,24 @@ jobs:
     - name: Cache
       uses: actions/cache@v2.1.4
       with:
-        path: libs/logue-sdk
-        key: logue-sdk-ab654af
+        path: |
+          libs/logue-sdk/tools
+          libs/googletest/build
+        key: logue-sdk-ab654af-googletest-1.10.0
     - name: Install gcc for arm
       run: |
         cd $TOOLSDIR/gcc
-        ./get_gcc_linux.sh
+        if [ ! -d "gcc-arm-none-eabi-5_4-2016q3" ]; then ./get_gcc_linux.sh; fi
     - name: Install logue-cli
       run: |
         cd $TOOLSDIR/logue-cli
-        ./get_logue_cli_linux.sh
-        chmod 755 logue-cli-linux64-0.07-2b/logue-cli
+        if [ ! -d "logue-cli-linux64-0.07-2b" ]; then ./get_logue_cli_linux.sh && chmod 755 logue-cli-linux64-0.07-2b/logue-cli; fi
     - name: Build
       run: tools/build.sh
     - name: Build googletest
       run: |
-        mkdir libs/googletest/build
-        cd libs/googletest/build
-        cmake ..
-        make
+        cd libs/googletest
+        if [ ! -d "build" ]; then mkdir build && cd build && cmake .. && make; fi
     - name: Test
       run: tools/test.sh
     - name: Install cpplint
