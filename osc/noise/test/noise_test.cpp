@@ -4,7 +4,7 @@
 
 #include "noise.hpp"
 
-TEST(PulseTest, SetIsShortFromParamVal) {
+TEST(NoiseTest, SetIsShortFromParamVal) {
   Noise noise = Noise();
 
   noise.params.setIsShortFromParamVal(0.000f);
@@ -20,7 +20,7 @@ TEST(PulseTest, SetIsShortFromParamVal) {
   EXPECT_FALSE(noise.params.isShort);
 }
 
-TEST(PulseTest, SampleShort) {
+TEST(NoiseTest, SampleShort) {
   Noise noise = Noise();
 
   EXPECT_EQ(0, noise.sample(0x7fff));
@@ -41,7 +41,7 @@ TEST(PulseTest, SampleShort) {
   EXPECT_EQ(0, noise.sample(0x3030));
 }
 
-TEST(PulseTest, SampleLong) {
+TEST(NoiseTest, SampleLong) {
   Noise noise = Noise();
 
   EXPECT_EQ(0, noise.sample(0x7fff));
@@ -62,7 +62,7 @@ TEST(PulseTest, SampleLong) {
   EXPECT_EQ(0, noise.sample(0x4000));
 }
 
-TEST(PulseTest, UpdatedRegisterShort) {
+TEST(NoiseTest, UpdatedRegisterShort) {
   Noise noise = Noise();
   noise.params.isShort = true;
 
@@ -84,7 +84,7 @@ TEST(PulseTest, UpdatedRegisterShort) {
   EXPECT_EQ(0x1818, noise.updatedRegister(0x3030));
 }
 
-TEST(PulseTest, UpdatedRegisterLong) {
+TEST(NoiseTest, UpdatedRegisterLong) {
   Noise noise = Noise();
   noise.params.isShort = false;
 
