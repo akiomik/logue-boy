@@ -23,7 +23,7 @@ jobs:
         path: |
           libs/logue-sdk/tools
           libs/googletest/build
-        key: logue-sdk-ab654af-googletest-1.10.0
+        key: ${{ runner.os }}-logue-sdk-ab654af-googletest-1.10.0
     - name: Install gcc for arm
       run: |
         cd $TOOLSDIR/gcc
