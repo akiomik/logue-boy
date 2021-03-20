@@ -19,12 +19,20 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+float si_roundf(const float x) {
+  return roundf(x);
+}
+
 float clipmaxf(const float x, const float m) {
   return fminf(x, m);
 }
 
 float fastersinf(const float x) {
   return sinf(x);
+}
+
+float linintf(const float fr, const float x0, const float x1) {
+  return x0 + (x1 - x0) * fr;
 }
 
 #endif  // LIBS_LOGUE_SDK_STUB_PLATFORM_MINILOGUE_XD_INC_UTILS_FLOAT_MATH_H_
