@@ -19,28 +19,28 @@
 TEST(PulseTest, SetDutyFromParamVal) {
   Pulse pulse = Pulse();
 
-  pulse.params.setDutyFromParamVal(0.000f);
+  pulse.params.set_duty_from_param_val(0.000f);
   EXPECT_FLOAT_EQ(0.125f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(0.249f);
+  pulse.params.set_duty_from_param_val(0.249f);
   EXPECT_FLOAT_EQ(0.125f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(0.250f);
+  pulse.params.set_duty_from_param_val(0.250f);
   EXPECT_FLOAT_EQ(0.250f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(0.499f);
+  pulse.params.set_duty_from_param_val(0.499f);
   EXPECT_FLOAT_EQ(0.250f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(0.500f);
+  pulse.params.set_duty_from_param_val(0.500f);
   EXPECT_FLOAT_EQ(0.500f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(0.749f);
+  pulse.params.set_duty_from_param_val(0.749f);
   EXPECT_FLOAT_EQ(0.500f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(0.750f);
+  pulse.params.set_duty_from_param_val(0.750f);
   EXPECT_FLOAT_EQ(0.750f, pulse.params.duty);
 
-  pulse.params.setDutyFromParamVal(1.000f);
+  pulse.params.set_duty_from_param_val(1.000f);
   EXPECT_FLOAT_EQ(0.750f, pulse.params.duty);
 }
 

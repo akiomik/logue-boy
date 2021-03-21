@@ -38,14 +38,14 @@ struct Noise {
   };
 
   struct Params {
-    bool isShort;
+    bool is_short;
 
     Params(void) :
-      isShort(true)
+      is_short(true)
     {}
 
     void setIsShortFromParamVal(const float valf) {
-      isShort = valf < 0.5f;
+      is_short = valf < 0.5f;
     }
   };
 
@@ -64,12 +64,12 @@ struct Noise {
     return prevLsb ^ newLsb;
   }
 
-  uint16_t updatedRegister(const uint16_t reg) {
+  uint16_t update_register(const uint16_t reg) {
     const uint8_t output = sample(reg);
     uint16_t updated = reg >> 1;
 
     updated = (0x3fff & updated) | (output << 14);
-    if (params.isShort) {
+    if (params.is_short) {
       updated = (0x7fbf & updated) | (output << 6);
     }
 

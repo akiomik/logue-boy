@@ -47,7 +47,7 @@ void OSC_CYCLE(const user_osc_param_t * const params,
     phase += w0;
 
     if (phase >= 1.f) {
-      reg = s_noise.updatedRegister(reg);
+      reg = s_noise.update_register(reg);
     }
 
     phase -= (uint32_t)phase;
