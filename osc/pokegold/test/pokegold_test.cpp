@@ -80,64 +80,64 @@ TEST(PokeGoldTest, SetWaveIdxFromParamVal) {
   EXPECT_EQ(9, pokegold.params.wave_idx);
 }
 
-TEST(PokeGoldTest, SetScaleFromParamVal) {
+TEST(PokeGoldTest, SetResolutionFromParamVal) {
   PokeGold pokegold = PokeGold();
 
-  pokegold.params.set_scale_from_param_val(0.0000f);
-  EXPECT_EQ(1, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.0000f);
+  EXPECT_EQ(1, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.0625f);
-  EXPECT_EQ(2, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.0625f);
+  EXPECT_EQ(2, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.1250f);
-  EXPECT_EQ(3, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.1250f);
+  EXPECT_EQ(3, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.1875f);
-  EXPECT_EQ(4, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.1875f);
+  EXPECT_EQ(4, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.2500f);
-  EXPECT_EQ(5, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.2500f);
+  EXPECT_EQ(5, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.3125f);
-  EXPECT_EQ(6, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.3125f);
+  EXPECT_EQ(6, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.3750f);
-  EXPECT_EQ(7, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.3750f);
+  EXPECT_EQ(7, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.4375f);
-  EXPECT_EQ(8, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.4375f);
+  EXPECT_EQ(8, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.5000f);
-  EXPECT_EQ(9, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.5000f);
+  EXPECT_EQ(9, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.5625f);
-  EXPECT_EQ(10, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.5625f);
+  EXPECT_EQ(10, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.6250f);
-  EXPECT_EQ(11, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.6250f);
+  EXPECT_EQ(11, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.6875f);
-  EXPECT_EQ(12, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.6875f);
+  EXPECT_EQ(12, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.7500f);
-  EXPECT_EQ(13, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.7500f);
+  EXPECT_EQ(13, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.8125f);
-  EXPECT_EQ(14, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.8125f);
+  EXPECT_EQ(14, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.8750);
-  EXPECT_EQ(15, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.8750);
+  EXPECT_EQ(15, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(0.9375);
-  EXPECT_EQ(16, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(0.9375);
+  EXPECT_EQ(16, pokegold.params.resolution);
 
-  pokegold.params.set_scale_from_param_val(1.000f);
-  EXPECT_EQ(16, pokegold.params.scale);
+  pokegold.params.set_resolution_from_param_val(1.000f);
+  EXPECT_EQ(16, pokegold.params.resolution);
 }
 
 TEST(PokeGoldTest, LerpFactor1) {
   PokeGold pokegold = PokeGold();
-  pokegold.params.scale = 1;
+  pokegold.params.resolution = 1;
 
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(0.0000000f));  // idx=0
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(0.1250000f));  // idx=4
@@ -156,7 +156,7 @@ TEST(PokeGoldTest, LerpFactor1) {
 
 TEST(PokeGoldTest, LerpFactor2) {
   PokeGold pokegold = PokeGold();
-  pokegold.params.scale = 2;
+  pokegold.params.resolution = 2;
 
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(0.0000000f));  // idx=0
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(0.1250000f));  // idx=4
@@ -175,7 +175,7 @@ TEST(PokeGoldTest, LerpFactor2) {
 
 TEST(PokeGoldTest, LerpFactor3) {
   PokeGold pokegold = PokeGold();
-  pokegold.params.scale = 3;
+  pokegold.params.resolution = 3;
 
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(0.0000000f));  // idx=0
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(0.1250000f));  // idx=4
@@ -192,10 +192,10 @@ TEST(PokeGoldTest, LerpFactor3) {
   EXPECT_FLOAT_EQ(0.0000000f, pokegold.lerp_factor(1.0000000f));  // idx=0
 }
 
-TEST(PokeGoldTest, SignalWave2Scale1) {
+TEST(PokeGoldTest, SignalWave2Resolution1) {
   PokeGold pokegold = PokeGold();
   pokegold.params.wave_idx = 2;
-  pokegold.params.scale = 1;
+  pokegold.params.resolution = 1;
 
   EXPECT_FLOAT_EQ(-0.8666667f, pokegold.signal(0.0000000f));  // idx=0
   EXPECT_FLOAT_EQ(0.4666667f,  pokegold.signal(0.1250000f));  // idx=4
@@ -212,10 +212,10 @@ TEST(PokeGoldTest, SignalWave2Scale1) {
   EXPECT_FLOAT_EQ(-0.8666667f, pokegold.signal(1.0000000f));  // idx=0
 }
 
-TEST(PokeGoldTest, SignalWave2Scale2) {
+TEST(PokeGoldTest, SignalWave2Resolution2) {
   PokeGold pokegold = PokeGold();
   pokegold.params.wave_idx = 2;
-  pokegold.params.scale = 2;
+  pokegold.params.resolution = 2;
 
   EXPECT_FLOAT_EQ(-0.8666667f, pokegold.signal(0.0000000f));  // idx=0
   EXPECT_FLOAT_EQ(0.4666667f,  pokegold.signal(0.1250000f));  // idx=4
@@ -232,10 +232,10 @@ TEST(PokeGoldTest, SignalWave2Scale2) {
   EXPECT_FLOAT_EQ(-0.8666667f, pokegold.signal(1.0000000f));  // idx=0
 }
 
-TEST(PokeGoldTest, SignalWave2Scale3) {
+TEST(PokeGoldTest, SignalWave2Resolution3) {
   PokeGold pokegold = PokeGold();
   pokegold.params.wave_idx = 2;
-  pokegold.params.scale = 3;
+  pokegold.params.resolution = 3;
 
   EXPECT_FLOAT_EQ(-0.8666667f, pokegold.signal(0.0000000f));  // idx=0
   EXPECT_FLOAT_EQ(0.4666667f,  pokegold.signal(0.1250000f));  // idx=4

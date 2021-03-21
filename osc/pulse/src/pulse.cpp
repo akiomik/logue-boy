@@ -75,7 +75,7 @@ void OSC_PARAM(uint16_t index, uint16_t value) {
   case k_user_osc_param_id6:
     break;
   case k_user_osc_param_shape:
-    s_pulse.params.setDutyFromParamVal(valf);
+    s_pulse.params.set_duty_from_param_val(valf);
     break;
   case k_user_osc_param_shiftshape:
     s_pulse.params.depth = valf;

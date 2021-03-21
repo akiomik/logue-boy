@@ -47,7 +47,7 @@ struct Pulse {
       depth(0.f)
     {}
 
-    void setDutyFromParamVal(const float valf) {
+    void set_duty_from_param_val(const float valf) {
       const uint8_t pulse_duty_lut_idx =
         clipmaxf(valf * k_pulse_duty_lut_size, k_pulse_duty_lut_size - 1);
       duty = pulse_duty_lut_f[pulse_duty_lut_idx];

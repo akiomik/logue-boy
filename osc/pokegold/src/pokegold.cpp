@@ -73,7 +73,7 @@ void OSC_PARAM(uint16_t index, uint16_t value) {
     s_pokegold.params.set_wave_idx_from_param_val(valf);
     break;
   case k_user_osc_param_shiftshape:
-    s_pokegold.params.set_scale_from_param_val(valf);
+    s_pokegold.params.set_resolution_from_param_val(valf);
     break;
   default:
     break;

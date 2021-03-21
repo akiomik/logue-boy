@@ -19,10 +19,10 @@
 
 #define OSC_POKEGOLD_SRC_POKEGOLD_HPP_
 
-#define k_pokegold_wave_size   (32)
-#define k_pokegold_wave_center (7.5)
-#define k_pokegold_wave_cnt    (10)
-#define k_pokegold_scale_max   (16)
+#define k_pokegold_wave_size      (32)
+#define k_pokegold_wave_center    (7.5)
+#define k_pokegold_wave_cnt       (10)
+#define k_pokegold_resolution_max (16)
 
 const uint8_t pokegold_wave0[k_pokegold_wave_size] = {
   0,  2,  4,  6,  8,  10, 12, 14, 15, 15, 15, 14, 14, 13, 13, 12,
@@ -104,19 +104,19 @@ struct PokeGold {
 
   struct Params {
     uint8_t wave_idx;
-    uint8_t scale;
+    uint8_t resolution;
 
     Params(void) :
       wave_idx(0),
-      scale(1)
+      resolution(1)
     {}
 
     void set_wave_idx_from_param_val(const float valf) {
       wave_idx = clipmaxf(valf * k_pokegold_wave_cnt, k_pokegold_wave_cnt - 1);
     }
 
-    void set_scale_from_param_val(const float valf) {
-      scale = clipmaxf(valf * k_pokegold_scale_max, k_pokegold_scale_max - 1) + 1;
+    void set_resolution_from_param_val(const float valf) {
+      resolution = clipmaxf(valf * k_pokegold_resolution_max, k_pokegold_resolution_max - 1) + 1;
     }
   };
 
@@ -129,10 +129,10 @@ struct PokeGold {
     params = Params();
   }
 
-  // returns value in [0, (scale - 1) / scale]
+  // returns value in [0, (resolution - 1) / resolution]
   float lerp_factor(const float phase) {
-    const uint32_t lerp_frame_idx = phase * k_pokegold_wave_size * params.scale;
-    return static_cast<float>(lerp_frame_idx % params.scale) / params.scale;
+    const uint32_t lerp_frame_idx = phase * k_pokegold_wave_size * params.resolution;
+    return static_cast<float>(lerp_frame_idx % params.resolution) / params.resolution;
   }
 
   float signal(const float phase) {
