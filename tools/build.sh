@@ -7,6 +7,7 @@ PROJECT_DIRS=(
   $ROOT_DIR/osc/noise/platform/minilogue-xd
   $ROOT_DIR/osc/noise/platform/nutekt-digital
   $ROOT_DIR/osc/pokegold/platform/minilogue-xd
+  $ROOT_DIR/osc/pokegold/platform/nutekt-digital
 )
 
 stat=0
