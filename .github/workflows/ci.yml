@@ -36,10 +36,10 @@ jobs:
         cd $TOOLSDIR/logue-cli
         if [ ! -d "logue-cli-linux64-0.07-2b" ]; then ./get_logue_cli_linux.sh && chmod 755 logue-cli-linux64-0.07-2b/logue-cli; fi
     - name: Build
+      run: tools/build.sh
+    - name: Test
       run: |
         meson ${BUILDDIR}
-        meson compile -C ${BUILDDIR}
-    - name: Test
-      run: meson test -C ${BUILDDIR}
+        meson test -C ${BUILDDIR}
     - name: Lint
       run: tools/lint.sh
