@@ -35,6 +35,7 @@
 build/
 *.mnlgxdunit
 *.ntkdigunit
+*.prlgunit
 
 # Meson & WrapDB
 subprojects/**/*
