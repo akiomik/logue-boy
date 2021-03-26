@@ -34,3 +34,7 @@
 # Project specific
 build/
 *.mnlgxdunit
+
+# Meson & WrapDB
+subprojects/**/*
+!subprojects/*.wrap
