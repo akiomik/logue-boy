@@ -6,9 +6,11 @@ gtest = subproject('gtest')
 gtest_dep = gtest.get_variable('gtest_dep')
 gtest_main_dep = gtest.get_variable('gtest_main_dep')
 
+thread_dep = dependency('threads') # for gtest
+
 logue_sdk_stub_mnlgxd_dep = declare_dependency(include_directories : 'libs/logue-sdk-stub/platform/minilogue-xd/inc')
 
-osc_test_deps = [gtest_dep, gtest_main_dep, logue_sdk_stub_mnlgxd_dep]
+osc_test_deps = [gtest_dep, gtest_main_dep, thread_dep, logue_sdk_stub_mnlgxd_dep]
 
 noise_test = executable('noise_test', 'osc/noise/test/noise_test.cpp',
                         dependencies : osc_test_deps,
