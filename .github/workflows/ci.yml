@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TOOLSDIR: libs/logue-sdk/tools
+      BUILDDIR: build
 
     steps:
     - uses: actions/checkout@v2
@@ -22,8 +23,10 @@ jobs:
       with:
         path: |
           libs/logue-sdk/tools
-          libs/googletest/build
-        key: ${{ runner.os }}-logue-sdk-ab654af-googletest-1.10.0
+          subprojects/googletest-release-1.10.0
+        key: ${{ runner.os }}-logue-sdk-ab654af-googletest-release-1.10.0
+    - name: Install tools
+      run: pip install 'meson>=0.54.0' ninja cpplint
     - name: Install gcc for arm
       run: |
         cd $TOOLSDIR/gcc
@@ -33,14 +36,10 @@ jobs:
         cd $TOOLSDIR/logue-cli
         if [ ! -d "logue-cli-linux64-0.07-2b" ]; then ./get_logue_cli_linux.sh && chmod 755 logue-cli-linux64-0.07-2b/logue-cli; fi
     - name: Build
-      run: tools/build.sh
-    - name: Build googletest
       run: |
-        cd libs/googletest
-        if [ ! -d "build" ]; then mkdir build && cd build && cmake .. && make; fi
+        meson ${BUILDDIR}
+        meson compile -C ${BUILDDIR}
     - name: Test
-      run: tools/test.sh
-    - name: Install cpplint
-      run: pip install cpplint
+      run: meson test -C ${BUILDDIR}
     - name: Lint
       run: tools/lint.sh
