@@ -26,7 +26,10 @@ jobs:
           subprojects/googletest-release-1.11.0
         key: ${{ runner.os }}-logue-sdk-ab654af-googletest-release-1.11.0
     - name: Install tools
-      run: pip install 'meson>=0.54.0' ninja cpplint
+      run: |
+        pip install 'meson>=0.54.0' ninja
+        sudo apt-get update
+        sudo apt-get install -y clang-tidy clang-format
     - name: Install gcc for arm
       run: |
         cd $TOOLSDIR/gcc
@@ -41,5 +44,7 @@ jobs:
       run: |
         meson ${BUILDDIR}
         meson test -C ${BUILDDIR}
+    - name: Check formatting
+      run: tools/format.sh --check
     - name: Lint
       run: tools/lint.sh
