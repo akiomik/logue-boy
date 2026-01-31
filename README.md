@@ -73,38 +73,115 @@ All oscillators are compatible with:
 1. **KORG logue SDK**: The repository includes the SDK as a git submodule in `libs/logue-sdk/`
 2. **GNU ARM Embedded Toolchain**: Required for cross-compilation
 3. **GNU Make**: For building the oscillators
+4. **logue-cli** (optional): For validating built units
 
-### Build Instructions
+### Setup
 
-1. Clone the repository with submodules:
+#### 1. Clone the repository with submodules
 
 ```bash
 git clone --recursive https://github.com/yourusername/logue-boy.git
 cd logue-boy
 ```
 
-2. Build all oscillators:
+#### 2. Install ARM Toolchain
+
+The logue SDK requires the GNU ARM Embedded Toolchain version 5.4 (5-2016-q3-update) for cross-compilation.
+
+**macOS:**
 
 ```bash
-cd osc/pulse/platform/minilogue-xd && make
-cd ../../../noise/platform/minilogue-xd && make
-cd ../../../pokegold/platform/minilogue-xd && make
+cd libs/logue-sdk/tools/gcc
+./get_gcc_osx.sh
+cd ../../../..
 ```
 
-Or use the provided build script:
+Note: On Apple Silicon Macs, the Intel x86_64 toolchain will run via Rosetta 2.
+
+**Linux:**
+
+```bash
+cd libs/logue-sdk/tools/gcc
+./get_gcc_linux.sh
+cd ../../../..
+```
+
+**Windows (MSYS2):**
+
+```bash
+cd libs/logue-sdk/tools/gcc
+./get_gcc_msys.sh
+cd ../../../..
+```
+
+#### 3. Install logue-cli (optional)
+
+The logue-cli tool is used for validating built unit files and can also load them onto your device.
+
+**macOS:**
+
+```bash
+cd libs/logue-sdk/tools/logue-cli
+./get_logue_cli_osx.sh
+cd ../../../..
+```
+
+**Linux:**
+
+```bash
+cd libs/logue-sdk/tools/logue-cli
+./get_logue_cli_linux.sh
+cd ../../../..
+```
+
+**Windows (MSYS2):**
+
+```bash
+cd libs/logue-sdk/tools/logue-cli
+./get_logue_cli_msys.sh
+cd ../../../..
+```
+
+### Build Instructions
+
+**Option 1: Build all oscillators for all platforms**
+
+Use the provided build script to build all 3 oscillators for all 3 platforms (9 units total):
 
 ```bash
 ./tools/build.sh
 ```
 
-3. Build for specific platforms by navigating to:
-   - `osc/{oscillator}/platform/minilogue-xd/`
-   - `osc/{oscillator}/platform/prologue/`
-   - `osc/{oscillator}/platform/nutekt-digital/`
+This will build and validate all units. Each build outputs `.mnlgxdunit`, `.prlgunit`, or `.ntkdigunit` files depending on the platform.
+
+**Option 2: Build specific oscillators**
+
+Build individual oscillators by navigating to their platform-specific directories:
+
+```bash
+# Example: Build pulse oscillator for minilogue xd
+cd osc/pulse/platform/minilogue-xd
+make
+
+# Validate the built unit (requires logue-cli)
+make check
+```
+
+Available oscillators and platforms:
+- Oscillators: `pulse`, `noise`, `pokegold`
+- Platforms: `minilogue-xd`, `prologue`, `nutekt-digital`
+- Path pattern: `osc/{oscillator}/platform/{platform}/`
 
 ### Output
 
-Compiled oscillators will generate `.ntkdigunit` files that can be loaded onto your KORG device using the official librarian software or logue-cli tool.
+Compiled oscillators generate platform-specific unit files:
+- **minilogue xd**: `.mnlgxdunit`
+- **prologue**: `.prlgunit`
+- **Nu:Tekt NTS-1**: `.ntkdigunit`
+
+These files can be loaded onto your KORG device using:
+- KORG's official librarian software
+- logue-cli tool (see Installation section below)
 
 ## Testing
 
