@@ -29,23 +29,17 @@ struct Pulse {
   };
 
   struct State {
-    float phase;
-    uint8_t flags;
+    float phase = 0.f;
+    uint8_t flags = k_flags_none;
 
-    State(void) :
-      phase(0.f),
-      flags(k_flags_none)
-    {}
+    State() = default;
   };
 
   struct Params {
-    float duty;
-    float depth;
+    float duty = 0.f;
+    float depth = 0.f;
 
-    Params(void) :
-      duty(0.f),
-      depth(0.f)
-    {}
+    Params() = default;
 
     void set_duty_from_param_val(const float valf) {
       const uint8_t pulse_duty_lut_idx =
@@ -54,26 +48,26 @@ struct Pulse {
     }
   };
 
-  Pulse(void) {
+  Pulse() {
     init();
   }
 
-  void init(void) {
+  void init() {
     state = State();
     params = Params();
   }
 
-  float signal(const float phase) {
+  float signal(const float phase) const {
     return phase < params.duty ? -1.f : 1.f;
   }
 
-  float position(const float phase) {
+  float position(const float phase) const {
     return signal(phase) < 0
       ? (phase / params.duty)
       : ((phase - params.duty) / (1 - params.duty));
   }
 
-  float attenuation(const float phase) {
+  float attenuation(const float phase) const {
     return fastersinf(position(phase) * M_PI_2) * params.depth;
   }
 

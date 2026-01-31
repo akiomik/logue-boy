@@ -210,6 +210,49 @@ Or run individual tests:
 ./builddir/pokegold_test
 ```
 
+## Linting
+
+The project uses clang-tidy for static analysis and code quality checks.
+
+### Running the Linter
+
+Run clang-tidy on all source files:
+
+```bash
+./tools/lint.sh
+```
+
+### Installing clang-tidy
+
+**macOS**:
+```bash
+brew install llvm
+```
+
+**Ubuntu/Debian**:
+```bash
+sudo apt install clang-tidy
+```
+
+**Other systems**: Install via your package manager or download from [LLVM releases](https://releases.llvm.org/)
+
+### Configuration
+
+clang-tidy is configured via `.clang-tidy` in the project root.
+
+The configuration is tuned for the logue SDK and embedded development:
+- Enables bug detection, code quality, performance, and readability checks
+- Disables checks that conflict with SDK-specific naming conventions (e.g., `OSC_INIT`)
+- Allows necessary embedded programming patterns (pointer arithmetic, reinterpret_cast, etc.)
+- Focuses on practical improvements while respecting embedded development constraints
+
+### Scope
+
+The linter checks header files (`.hpp`) in the `osc/` directory:
+- Test files are excluded (checked by unit tests instead)
+- Implementation files (`.cpp`) are excluded (they require SDK headers that clang-tidy cannot locate)
+- Header files contain the core logic and class definitions
+
 ## Installation
 
 1. Build the oscillator for your platform

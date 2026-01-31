@@ -33,8 +33,8 @@ void OSC_CYCLE(const user_osc_param_t * const params,
   s.flags = Noise::k_flags_none;
 
   const float w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
-  float phase = (flags & Noise::k_flag_reset) ? 0.f : s.phase;
-  uint16_t reg = (flags & Noise::k_flag_reset) ? 0x7fff : s.reg;
+  float phase = ((flags & Noise::k_flag_reset) != 0) ? 0.f : s.phase;
+  uint16_t reg = ((flags & Noise::k_flag_reset) != 0) ? 0x7fff : s.reg;
 
   q31_t * __restrict y = reinterpret_cast<q31_t *>(yn);
   const q31_t * y_e = y + frames;
@@ -50,7 +50,7 @@ void OSC_CYCLE(const user_osc_param_t * const params,
       reg = s_noise.update_register(reg);
     }
 
-    phase -= (uint32_t)phase;
+    phase -= static_cast<uint32_t>(phase);
   }
 
   s.phase = phase;

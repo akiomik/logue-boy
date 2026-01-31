@@ -93,23 +93,17 @@ struct PokeGold {
   };
 
   struct State {
-    float phase;
-    uint8_t flags;
+    float phase = 0.f;
+    uint8_t flags = k_flags_none;
 
-    State(void) :
-      phase(0.f),
-      flags(k_flags_none)
-    {}
+    State() = default;
   };
 
   struct Params {
-    uint8_t wave_idx;
-    uint8_t resolution;
+    uint8_t wave_idx = 0;
+    uint8_t resolution = 1;
 
-    Params(void) :
-      wave_idx(0),
-      resolution(1)
-    {}
+    Params() = default;
 
     void set_wave_idx_from_param_val(const float valf) {
       wave_idx = clipmaxf(valf * k_pokegold_wave_cnt, k_pokegold_wave_cnt - 1);
@@ -120,23 +114,23 @@ struct PokeGold {
     }
   };
 
-  PokeGold(void) {
+  PokeGold() {
     init();
   }
 
-  void init(void) {
+  void init() {
     state = State();
     params = Params();
   }
 
   // returns value in [0, (resolution - 1) / resolution]
-  float lerp_factor(const float phase) {
+  float lerp_factor(const float phase) const {
     const uint32_t lerp_frame_idx = phase * k_pokegold_wave_size * params.resolution;
     return static_cast<float>(lerp_frame_idx % params.resolution) / params.resolution;
   }
 
-  float signal(const float phase) {
-    const float p = phase - (uint32_t)phase;  // [0, 1)
+  float signal(const float phase) const {
+    const float p = phase - static_cast<uint32_t>(phase);  // [0, 1)
     const uint8_t *wave = pokegold_waves[params.wave_idx];
     const uint8_t frame_idx = p * k_pokegold_wave_size;
     const uint8_t next_frame_idx = (frame_idx + 1) % k_pokegold_wave_size;

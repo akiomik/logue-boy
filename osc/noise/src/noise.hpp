@@ -26,45 +26,39 @@ struct Noise {
   };
 
   struct State {
-    float phase;
-    uint16_t reg;
-    uint8_t flags;
+    float phase = 0.f;
+    uint16_t reg = 0;
+    uint8_t flags = k_flags_none;
 
-    State(void) :
-      phase(0.f),
-      reg(0),
-      flags(k_flags_none)
-    {}
+    State() = default;
   };
 
   struct Params {
-    bool is_short;
+    bool is_short = true;
 
-    Params(void) :
-      is_short(true)
-    {}
+    Params() = default;
 
     void setIsShortFromParamVal(const float valf) {
       is_short = valf < 0.5f;
     }
   };
 
-  Noise(void) {
+  Noise() {
     init();
   }
 
-  void init(void) {
+  void init() {
     state = State();
     params = Params();
   }
 
-  uint8_t sample(const uint16_t reg) {
+  uint8_t sample(const uint16_t reg) const {
     const uint8_t prevLsb = reg & 1;
     const uint8_t newLsb = (reg >> 1) & 1;
     return prevLsb ^ newLsb;
   }
 
-  uint16_t update_register(const uint16_t reg) {
+  uint16_t update_register(const uint16_t reg) const {
     const uint8_t output = sample(reg);
     uint16_t updated = reg >> 1;
 

@@ -34,7 +34,7 @@ void OSC_CYCLE(const user_osc_param_t * const params,
   s.flags = Pulse::k_flags_none;
 
   const float w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
-  float phase = (flags & Pulse::k_flag_reset) ? 0.f : s.phase;
+  float phase = ((flags & Pulse::k_flag_reset) != 0) ? 0.f : s.phase;
 
   const float duty = p.duty;
   const float depth = p.depth;
@@ -49,7 +49,7 @@ void OSC_CYCLE(const user_osc_param_t * const params,
     *(y++) = f32_to_q31(sig);
 
     phase += w0;
-    phase -= (uint32_t)phase;
+    phase -= static_cast<uint32_t>(phase);
   }
 
   s.phase = phase;
