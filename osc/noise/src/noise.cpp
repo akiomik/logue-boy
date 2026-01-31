@@ -24,22 +24,20 @@ void OSC_INIT(uint32_t platform, uint32_t api) {
   (void)api;
 }
 
-void OSC_CYCLE(const user_osc_param_t * const params,
-               int32_t *yn,
-               const uint32_t frames) {
-  Noise::State &s = s_noise.state;
+void OSC_CYCLE(const user_osc_param_t* const params, int32_t* yn, const uint32_t frames) {
+  Noise::State& s = s_noise.state;
 
   const uint8_t flags = s.flags;
   s.flags = Noise::k_flags_none;
 
-  const float w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
+  const float w0 = osc_w0f_for_note((params->pitch) >> 8, params->pitch & 0xFF);
   float phase = ((flags & Noise::k_flag_reset) != 0) ? 0.f : s.phase;
   uint16_t reg = ((flags & Noise::k_flag_reset) != 0) ? 0x7fff : s.reg;
 
-  q31_t * __restrict y = reinterpret_cast<q31_t *>(yn);
-  const q31_t * y_e = y + frames;
+  q31_t* __restrict y = reinterpret_cast<q31_t*>(yn);
+  const q31_t* y_e = y + frames;
 
-  for (; y != y_e; ) {
+  for (; y != y_e;) {
     const float sig = s_noise.sample(reg);
 
     *(y++) = f32_to_q31(sig);
@@ -57,11 +55,11 @@ void OSC_CYCLE(const user_osc_param_t * const params,
   s.reg = reg;
 }
 
-void OSC_NOTEON(const user_osc_param_t * const params) {
+void OSC_NOTEON(const user_osc_param_t* const params) {
   s_noise.state.flags |= Noise::k_flag_reset;
 }
 
-void OSC_NOTEOFF(const user_osc_param_t * const params) {
+void OSC_NOTEOFF(const user_osc_param_t* const params) {
   (void)params;
 }
 
@@ -69,18 +67,18 @@ void OSC_PARAM(uint16_t index, uint16_t value) {
   const float valf = param_val_to_f32(value);
 
   switch (index) {
-  case k_user_osc_param_id1:
-  case k_user_osc_param_id2:
-  case k_user_osc_param_id3:
-  case k_user_osc_param_id4:
-  case k_user_osc_param_id5:
-  case k_user_osc_param_id6:
-    break;
-  case k_user_osc_param_shape:
-    s_noise.params.setIsShortFromParamVal(valf);
-    break;
-  case k_user_osc_param_shiftshape:
-  default:
-    break;
+    case k_user_osc_param_id1:
+    case k_user_osc_param_id2:
+    case k_user_osc_param_id3:
+    case k_user_osc_param_id4:
+    case k_user_osc_param_id5:
+    case k_user_osc_param_id6:
+      break;
+    case k_user_osc_param_shape:
+      s_noise.params.setIsShortFromParamVal(valf);
+      break;
+    case k_user_osc_param_shiftshape:
+    default:
+      break;
   }
 }

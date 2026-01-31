@@ -24,25 +24,23 @@ void OSC_INIT(uint32_t platform, uint32_t api) {
   (void)api;
 }
 
-void OSC_CYCLE(const user_osc_param_t * const params,
-               int32_t *yn,
-               const uint32_t frames) {
-  Pulse::State &s = s_pulse.state;
-  const Pulse::Params &p = s_pulse.params;
+void OSC_CYCLE(const user_osc_param_t* const params, int32_t* yn, const uint32_t frames) {
+  Pulse::State& s = s_pulse.state;
+  const Pulse::Params& p = s_pulse.params;
 
   const uint8_t flags = s.flags;
   s.flags = Pulse::k_flags_none;
 
-  const float w0 = osc_w0f_for_note((params->pitch)>>8, params->pitch & 0xFF);
+  const float w0 = osc_w0f_for_note((params->pitch) >> 8, params->pitch & 0xFF);
   float phase = ((flags & Pulse::k_flag_reset) != 0) ? 0.f : s.phase;
 
   const float duty = p.duty;
   const float depth = p.depth;
 
-  q31_t * __restrict y = reinterpret_cast<q31_t *>(yn);
-  const q31_t * y_e = y + frames;
+  q31_t* __restrict y = reinterpret_cast<q31_t*>(yn);
+  const q31_t* y_e = y + frames;
 
-  for (; y != y_e; ) {
+  for (; y != y_e;) {
     float sig = s_pulse.signal(phase);
     sig *= 1.f - s_pulse.attenuation(phase);
 
@@ -55,11 +53,11 @@ void OSC_CYCLE(const user_osc_param_t * const params,
   s.phase = phase;
 }
 
-void OSC_NOTEON(const user_osc_param_t * const params) {
+void OSC_NOTEON(const user_osc_param_t* const params) {
   s_pulse.state.flags |= Pulse::k_flag_reset;
 }
 
-void OSC_NOTEOFF(const user_osc_param_t * const params) {
+void OSC_NOTEOFF(const user_osc_param_t* const params) {
   (void)params;
 }
 
@@ -67,20 +65,20 @@ void OSC_PARAM(uint16_t index, uint16_t value) {
   const float valf = param_val_to_f32(value);
 
   switch (index) {
-  case k_user_osc_param_id1:
-  case k_user_osc_param_id2:
-  case k_user_osc_param_id3:
-  case k_user_osc_param_id4:
-  case k_user_osc_param_id5:
-  case k_user_osc_param_id6:
-    break;
-  case k_user_osc_param_shape:
-    s_pulse.params.set_duty_from_param_val(valf);
-    break;
-  case k_user_osc_param_shiftshape:
-    s_pulse.params.depth = valf;
-    break;
-  default:
-    break;
+    case k_user_osc_param_id1:
+    case k_user_osc_param_id2:
+    case k_user_osc_param_id3:
+    case k_user_osc_param_id4:
+    case k_user_osc_param_id5:
+    case k_user_osc_param_id6:
+      break;
+    case k_user_osc_param_shape:
+      s_pulse.params.set_duty_from_param_val(valf);
+      break;
+    case k_user_osc_param_shiftshape:
+      s_pulse.params.depth = valf;
+      break;
+    default:
+      break;
   }
 }

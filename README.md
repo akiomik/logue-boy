@@ -210,11 +210,11 @@ Or run individual tests:
 ./builddir/pokegold_test
 ```
 
-## Linting
+## Code Quality
 
-The project uses clang-tidy for static analysis and code quality checks.
+The project uses clang-tidy for static analysis and clang-format for code formatting.
 
-### Running the Linter
+### Linting
 
 Run clang-tidy on all source files:
 
@@ -222,36 +222,56 @@ Run clang-tidy on all source files:
 ./tools/lint.sh
 ```
 
-### Installing clang-tidy
+**Scope:**
+- Header files (`.hpp`) in the `osc/` directory
+- Test files are excluded (checked by unit tests instead)
+- Implementation files (`.cpp`) are excluded (they require SDK headers that clang-tidy cannot locate)
 
-**macOS**:
+### Formatting
+
+Format all source files:
+
+```bash
+./tools/format.sh
+```
+
+Check if files are properly formatted (without making changes):
+
+```bash
+./tools/format.sh --check
+```
+
+**Scope:**
+- All C++ source and header files (`.cpp`, `.hpp`) in the `osc/` directory
+- Test files are excluded
+
+### Installing Tools
+
+**clang-tidy and clang-format on macOS**:
 ```bash
 brew install llvm
 ```
 
-**Ubuntu/Debian**:
+**clang-tidy and clang-format on Ubuntu/Debian**:
 ```bash
-sudo apt install clang-tidy
+sudo apt install clang-tidy clang-format
 ```
 
 **Other systems**: Install via your package manager or download from [LLVM releases](https://releases.llvm.org/)
 
 ### Configuration
 
-clang-tidy is configured via `.clang-tidy` in the project root.
+- **clang-tidy**: Configured via `.clang-tidy` in the project root
+  - Tuned for the logue SDK and embedded development
+  - Enables bug detection, code quality, performance, and readability checks
+  - Disables checks that conflict with SDK-specific naming conventions (e.g., `OSC_INIT`)
+  - Allows necessary embedded programming patterns (pointer arithmetic, reinterpret_cast, etc.)
 
-The configuration is tuned for the logue SDK and embedded development:
-- Enables bug detection, code quality, performance, and readability checks
-- Disables checks that conflict with SDK-specific naming conventions (e.g., `OSC_INIT`)
-- Allows necessary embedded programming patterns (pointer arithmetic, reinterpret_cast, etc.)
-- Focuses on practical improvements while respecting embedded development constraints
-
-### Scope
-
-The linter checks header files (`.hpp`) in the `osc/` directory:
-- Test files are excluded (checked by unit tests instead)
-- Implementation files (`.cpp`) are excluded (they require SDK headers that clang-tidy cannot locate)
-- Header files contain the core logic and class definitions
+- **clang-format**: Configured via `.clang-format` in the project root
+  - Based on Google C++ style guide
+  - 2-space indentation
+  - 100-character line limit
+  - Consistent spacing and alignment rules
 
 ## Installation
 

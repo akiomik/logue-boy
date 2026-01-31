@@ -20,12 +20,12 @@
 #define OSC_PULSE_SRC_PULSE_HPP_
 
 #define k_pulse_duty_lut_size (4)
-const float pulse_duty_lut_f[k_pulse_duty_lut_size] = { 0.125f, 0.250f, 0.500f, 0.750f };
+const float pulse_duty_lut_f[k_pulse_duty_lut_size] = {0.125f, 0.250f, 0.500f, 0.750f};
 
 struct Pulse {
   enum {
     k_flags_none = 0,
-    k_flag_reset = 1<<0,
+    k_flag_reset = 1 << 0,
   };
 
   struct State {
@@ -43,35 +43,29 @@ struct Pulse {
 
     void set_duty_from_param_val(const float valf) {
       const uint8_t pulse_duty_lut_idx =
-        clipmaxf(valf * k_pulse_duty_lut_size, k_pulse_duty_lut_size - 1);
+          clipmaxf(valf * k_pulse_duty_lut_size, k_pulse_duty_lut_size - 1);
       duty = pulse_duty_lut_f[pulse_duty_lut_idx];
     }
   };
 
-  Pulse() {
-    init();
-  }
+  Pulse() { init(); }
 
   void init() {
     state = State();
     params = Params();
   }
 
-  float signal(const float phase) const {
-    return phase < params.duty ? -1.f : 1.f;
-  }
+  float signal(const float phase) const { return phase < params.duty ? -1.f : 1.f; }
 
   float position(const float phase) const {
-    return signal(phase) < 0
-      ? (phase / params.duty)
-      : ((phase - params.duty) / (1 - params.duty));
+    return signal(phase) < 0 ? (phase / params.duty) : ((phase - params.duty) / (1 - params.duty));
   }
 
   float attenuation(const float phase) const {
     return fastersinf(position(phase) * M_PI_2) * params.depth;
   }
 
-  State  state;
+  State state;
   Params params;
 };
 

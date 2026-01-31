@@ -22,7 +22,7 @@
 struct Noise {
   enum {
     k_flags_none = 0,
-    k_flag_reset = 1<<0,
+    k_flag_reset = 1 << 0,
   };
 
   struct State {
@@ -38,14 +38,10 @@ struct Noise {
 
     Params() = default;
 
-    void setIsShortFromParamVal(const float valf) {
-      is_short = valf < 0.5f;
-    }
+    void setIsShortFromParamVal(const float valf) { is_short = valf < 0.5f; }
   };
 
-  Noise() {
-    init();
-  }
+  Noise() { init(); }
 
   void init() {
     state = State();
@@ -70,7 +66,7 @@ struct Noise {
     return updated;
   }
 
-  State  state;
+  State state;
   Params params;
 };
 
