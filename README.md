@@ -1,5 +1,7 @@
 # logue-boy
 
+[![C/C++ CI](https://github.com/akiomik/logue-boy/actions/workflows/ci.yml/badge.svg)](https://github.com/akiomik/logue-boy/actions/workflows/ci.yml)
+
 Game Boy-inspired oscillators for KORG logue synthesizers (minilogue xd, prologue, and Nu:Tekt NTS-1 digital kit).
 
 ## Overview
