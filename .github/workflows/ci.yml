@@ -23,8 +23,8 @@ jobs:
       with:
         path: |
           libs/logue-sdk/tools
-          subprojects/googletest-release-1.10.0
-        key: ${{ runner.os }}-logue-sdk-ab654af-googletest-release-1.10.0
+          subprojects/googletest-release-1.11.0
+        key: ${{ runner.os }}-logue-sdk-ab654af-googletest-release-1.11.0
     - name: Install tools
       run: pip install 'meson>=0.54.0' ninja cpplint
     - name: Install gcc for arm
